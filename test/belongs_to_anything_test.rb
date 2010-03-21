@@ -95,4 +95,16 @@ class BelongsToAnythingTest < ActiveSupport::TestCase
     end
   end
 
+  context "Adapters" do
+    context "UniqueStringIdAdapter" do
+      should "have parameter column" do
+        class TestModel2 < ActiveRecord::Base
+          belongs_to_anything :column => :page_id
+          set_table_name :test_table2
+        end
+
+        assert_equal "XXX", TestModel2.create_record_for("XXX").page_id
+      end
+    end
+  end
 end

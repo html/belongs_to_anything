@@ -15,6 +15,10 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :test_table do |t|
     t.column :name, :string
   end
+
+  create_table :test_table2 do |t|
+    t.column :page_id, :string
+  end
 end
 
 

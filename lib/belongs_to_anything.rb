@@ -32,8 +32,10 @@ module BelongsToAnything
 
   module Adapters
     class UniqueStringIdAdapter
+      attr_accessor :id_column
       def initialize(base, args = {})
         bta = self
+        @id_column = (args[:column] || 'name').to_s
 
         base.class_eval do |cl|
           cl.extend(ClassMethods)
@@ -43,7 +45,7 @@ module BelongsToAnything
       end
 
       def unique_string_mixin(obj)
-        {:name => MatcherManager::match(obj).join('-')}
+        { id_column => MatcherManager::match(obj).join('-')}
       end
 
       module ClassMethods
