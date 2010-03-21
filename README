@@ -1,7 +1,7 @@
 BelongsToAnything
 =================
 
-The idea is to have ability to associate any object with some record.
+The idea is to have ability to associate any ruby object with some record.
 
 
 Example
@@ -15,12 +15,28 @@ record = AnotherModel.create
 
 page_info = PageInfo.create_for(record, :col1 => 'val1')
 PageInfo.record_for(record) == page_info
-
-page_info = PageInfo.create_for(IndexController)
-PageInfo.record_for(IndexController) == page_info
+PageInfo.record_for(record).col1 == 'val1'
 
 page_info = PageInfo.create_for('index_page')
-PageInfo.record_for('test') == page_info
+PageInfo.record_for('index_page') == page_info
+
+
+Following example is posible when you add custom matcher for ActionController::Base
+
+page_info = PageInfo.create_for(IndexController.new)
+PageInfo.record_for(IndexController.new) == page_info
+
+Matcher for this looks like
+module BelongsToAnything::Matchers
+  def self.action_controller_matcher(obj)
+    if defined?(ActionController::Base) && obj.is_a?(ActionController)
+      # Generating some unique array (id) from ActionController, if you generate it based on controller name and action it will look like
+      # ['index','index'] or ['index','list']
+      # and if id is based on controller action id it will be
+      # ['index','index', 1] or ['index','index', 1] or any other
+    end
+  end
+end
 
 
 
