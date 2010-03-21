@@ -1,0 +1,27 @@
+BelongsToAnything
+=================
+
+The idea is to have ability to associate any object with some record.
+
+
+Example
+=======
+
+class PageInfo < ActiveRecord::Base
+  belongs_to_anything
+end
+
+record = AnotherModel.create
+
+page_info = PageInfo.create_for(record, :col1 => 'val1')
+PageInfo.record_for(record) == page_info
+
+page_info = PageInfo.create_for(IndexController)
+PageInfo.record_for(IndexController) == page_info
+
+page_info = PageInfo.create_for('index_page')
+PageInfo.record_for('test') == page_info
+
+
+
+Copyright (c) 2010 Olexiy Zamkoviy, released under the MIT license
